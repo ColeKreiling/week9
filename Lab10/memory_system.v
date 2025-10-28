@@ -5,27 +5,27 @@ module memory_system(
     output [7:0] memory
 );
     wire [3:0] store_enable;
-    wire [3:0] store_data;
+    wire [7:0] store_data[3:0];
     wire [7:0] mem[3:0];
 
     byte_memory byte0(
         .data(store_data[0]),
-        .store(store),
+        .store(store_enable[0]),
         .memory(mem[0])
     );
     byte_memory byte1(
         .data(store_data[1]),
-        .store(store),
+        .store(store_enable[1]),
         .memory(mem[1])
     );
     byte_memory byte2(
         .data(store_data[2]),
-        .store(store),
+        .store(store_enable[2]),
         .memory(mem[2])
     );
     byte_memory byte3(
         .data(store_data[3]),
-        .store(store),
+        .store(store_enable[3]),
         .memory(mem[3])
     );
     
@@ -38,7 +38,7 @@ module memory_system(
         .D(store_data[3])
     );
     
-    demux demux_inst2(
+    demux demux2_inst(
         .data(store),
         .sel(addr),
         .A(store_enable[0]),
@@ -53,7 +53,6 @@ module memory_system(
         .byte2(mem[2]),
         .byte3(mem[3]),
         .Sel(addr),
-        .enable(store),
         .Y(memory)
     );
 endmodule
